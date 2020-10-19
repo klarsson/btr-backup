@@ -1,0 +1,6 @@
+[Unit]
+Description=Backup filesystem
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/backup-btrfs.sh

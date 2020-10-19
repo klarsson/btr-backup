@@ -1,0 +1,6 @@
+[Unit]
+Description=Remove old backups
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/cleaner.py /media/hdd/snapshots

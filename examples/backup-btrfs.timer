@@ -1,0 +1,9 @@
+[Unit]
+Description=Run backup-btrfs daily
+
+[Timer]
+OnCalendar=02:52
+Persistent=true     
+ 
+[Install]
+WantedBy=timers.target
