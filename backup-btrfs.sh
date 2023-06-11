@@ -17,7 +17,9 @@ function is_local {
     local host=$1
 
     for ADDR in $(dig +short $host A $host AAAA); do
-        ip route get $ADDR | grep -q ' via ' || return 0
+        if ROUTE=$(ip route get $ADDR); then
+            grep -q ' via ' <<< $ROUTE || return 0
+        fi
     done
 
     error "$host is not local."
