@@ -72,8 +72,8 @@ function sync_snapshots {
     unset IFS
 
     if [ ${#dest_parts[@]} -gt 1 ]; then
-        wait_for_online_host ${dest_parts[0]}
         $ALLOW_REMOTE || is_local ${dest_parts[0]}
+        wait_for_online_host ${dest_parts[0]}
     fi
 
     $BIN_DIR/snapshot_sync.py "$SOURCE/snapshots" "$DESTINATION"
