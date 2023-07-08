@@ -16,13 +16,22 @@ function error {
 function is_local {
     local host=$1
 
-    for ADDR in $(dig +short $host A $host AAAA); do
-        if ROUTE=$(ip route get $ADDR); then
-            grep -q ' via ' <<< $ROUTE || return 0
-        fi
+    for TRY in $(seq 5); do
+        ADDR=$(dig +short $host A $host AAAA)
+        [ $? -eq 0 ] && (
+            for A in $ADDR; do
+                if ROUTE=$(ip route get $A); then
+                    grep -q ' via ' <<< $ROUTE || return 0
+                fi
+            done
+
+            error "$host is not local."
+        ) || return 1
+        echo "Attempt to resolve $host failed, sleeping and trying again."
+        sleep 10
     done
 
-    error "$host is not local."
+    error "Could not resolve $host"
 }
 
 function wait_for_online_host {
