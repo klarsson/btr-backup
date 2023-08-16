@@ -18,7 +18,7 @@ function is_local {
 
     for TRY in $(seq 5); do
         ADDR=$(dig +short $host A $host AAAA)
-        [ $? -eq 0 ] && (
+        if [ $? -eq 0 ]; then 
             for A in $ADDR; do
                 if ROUTE=$(ip route get $A); then
                     grep -q ' via ' <<< $ROUTE || return 0
@@ -26,7 +26,7 @@ function is_local {
             done
 
             error "$host is not local."
-        ) || return 1
+        fi
         echo "Attempt to resolve $host failed, sleeping and trying again."
         sleep 10
     done
