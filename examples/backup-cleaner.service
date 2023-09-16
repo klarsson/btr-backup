@@ -3,4 +3,4 @@ Description=Remove old backups
 
 [Service]
 Type=oneshot
-ExecStart=/usr/local/bin/cleaner.py /media/hdd/snapshots
+ExecStart=/usr/bin/cleaner.py /media/hdd/snapshots
