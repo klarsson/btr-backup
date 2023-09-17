@@ -12,7 +12,7 @@ import subprocess
 from argparse import ArgumentParser
 
 
-def filter(name, dates):
+def filter(src, host, name, dates):
     weeks = max_weeks
     days = max_days
     months = max_months
@@ -59,6 +59,7 @@ def filter(name, dates):
             )
         else:
             print(datestr, filter.strip())
+
 
 def cleanSrc(src):
     for host in listdir(src):
@@ -109,7 +110,6 @@ if __name__ == '__main__':
     )
 
     args = parser.parse_args()
-    src = args.src
     max_days = args.days
     max_weeks = args.weeks
     max_months = args.months
