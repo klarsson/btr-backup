@@ -60,10 +60,32 @@ def filter(name, dates):
         else:
             print(datestr, filter.strip())
 
+def cleanSrc(src):
+    for host in listdir(src):
+        print('###################################')
+        print(host)
+        snapshots = getSnapshots("/".join([src, host]))
+
+        for name, dates in snapshots.items():
+            print('\n' + name)
+            filter(src, host, name, dates)
+
+
+def getSnapshots(path):
+    snapshots = {}
+    for s in listdir(path):
+        m = re.search('(.+)-(\\d{4}-\\d{2}-\\d{2})$', s)
+        if m.group(1) in snapshots:
+            snapshots[m.group(1)].append(m.group(2))
+        else:
+            snapshots[m.group(1)] = [m.group(2)]
+
+    return snapshots
+
 
 if __name__ == '__main__':
     parser = ArgumentParser(description=__doc__)
-    parser.add_argument('src', help='Source directory.')
+    parser.add_argument('src', help='Source directory.', nargs='+')
     parser.add_argument(
         '-d',
         '--days',
@@ -92,17 +114,6 @@ if __name__ == '__main__':
     max_weeks = args.weeks
     max_months = args.months
 
-    for host in listdir(src):
-        print('###################################')
-        print(host)
-        snapshots = {}
-        for s in listdir(src + '/' + host):
-            m = re.search('(.+)-(\\d{4}-\\d{2}-\\d{2})$', s)
-            if m.group(1) in snapshots:
-                snapshots[m.group(1)].append(m.group(2))
-            else:
-                snapshots[m.group(1)] = [m.group(2)]
-
-        for name, dates in snapshots.items():
-            print('\n' + name)
-            filter(name, dates)
+    for src in args.src:
+        print('*********{}*********'.format(src))
+        cleanSrc(src)

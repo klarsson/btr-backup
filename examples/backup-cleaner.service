@@ -3,4 +3,8 @@ Description=Remove old backups
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/cleaner.py /media/hdd/snapshots
+Environment="CLEANUP_DAYS=6"
+Environment="CLEANUP_WEEKS=6"
+Environment="CLEANUP_MONTHS=6"
+EnvironmentFile=/etc/btr-backup.conf
+ExecStart=/usr/bin/cleaner.py --months=$CLEANUP_MONTHS --weeks=$CLEANUP_WEEKS --days=$CLEANUP_DAYS $CLEANUP_SOURCES
