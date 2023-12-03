@@ -2,7 +2,9 @@
 Description=Run backup-btrfs daily
 
 [Timer]
-OnCalendar=02:52
+OnCalendar=daily
+RandomizedDelaySec=3h
+FixedRandomDelay=true
 Persistent=true     
  
 [Install]
